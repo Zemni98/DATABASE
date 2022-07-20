@@ -56,3 +56,26 @@ GROUP BY userID;
 SELECT userID, SUM(amount * price)
 FROM buytbl
 GROUP BY userID;
+
+-- 집계함수 (SUM(), COUNT(), COUNT(DISTINCT), MAX(), MIN(), AVG() )
+
+-- 전체 구매자가 구매한 물품 개수의 평균을 얼마인가요?
+SELECT AVG(amount)
+FROM buytbl;
+
+-- 각 사용자별로 한번 구매시 물건을 평균 몇 개 구매했는지 조회하세요!
+SELECT userID,AVG(amount) AS '평균 구매 개수'
+FROM buytbl
+GROUP BY userID;
+
+-- usertbl에서 가장 큰 키와 가장 작은 키의 회원 이름과 키를 출력하세요!!
+SELECT name,height 
+FROM usertbl
+WHERE height = ( SELECT MAX(height) from usertbl)
+OR height = ( SELECT MIN(height) from usertbl);
+
+-- 사용자별 총 구매금액이 1,000원 이상인 사용자만 출력하세요!
+SELECT userID,SUM(price * amount) FROM buytbl
+-- WHERE SUM(price * amount) >= 1000 -- WHERE절에는 집계함수가 나올 수 없다.
+GROUP BY userID
+HAVING SUM(price * amount) >= 1000;
